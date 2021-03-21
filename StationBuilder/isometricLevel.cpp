@@ -60,7 +60,7 @@ void isometricLevel::fillFloors()
 			//std::cout << "At X:" << tileSize/2 * x;
 			
 			//levelTiles.push_back(tile(sf::Vector2f(tileSize *x,tileSize*y), textureMaster, EMPTY));
-			levelTiles.push_back(tile(cartToIso(sf::Vector2f(tileSize/2 * x, tileSize/2 * y)), textureMaster, EMPTY));
+			levelTiles.push_back(tile(cartToIso(sf::Vector2f(tileSize/2 * x, tileSize/2 * y)), textureMaster, "empty"));
 		}	
 		
 	}
@@ -119,3 +119,38 @@ void isometricLevel::setTextureManager(textureManager* _textureMaster)
 {
 	textureMaster = _textureMaster;
 }
+
+float isometricLevel::getSizeW()
+{
+	return levelSizeW;
+}
+float isometricLevel::getSizeH()
+{
+	return levelSizeH;
+}
+float isometricLevel::getTileSize()
+{
+	return tileSize;
+}
+float isometricLevel::getStackLayer()
+{
+	return stackLayer;
+}
+
+void isometricLevel::setSizeW(float _sizeW)
+{
+	levelSizeW = _sizeW;
+}
+void isometricLevel::setSizeH(float _sizeH)
+{
+	levelSizeW = _sizeH;
+}
+void isometricLevel::setTileSize(float _tileSize) {
+
+	tileSize = _tileSize;
+}
+void isometricLevel::setStackLayer(float _stackLayer)
+{
+	stackLayer = _stackLayer;
+}
+

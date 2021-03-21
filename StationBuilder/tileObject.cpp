@@ -1,13 +1,18 @@
 #include "tileObject.h"
-tileObject::tileObject(const sf::Texture* _texture, const sf::Vector2f& _screenPosition,
+tileObject::tileObject()
+{
+
+}
+tileObject::tileObject(textureManager* _textureMaster, std::string _key, const sf::Vector2f& _screenPosition,
 	 sf::Vector2f& _scale, float _rotation, const sf::Color& _colour)
 {
 	worldPosition = _screenPosition;
 	setPosition(_screenPosition);//this will needed to be converted to screen coords
-	setTexture(*_texture);
+	setTexture(*(_textureMaster->getTexture(_key)));
 	setColor(_colour);
 	setRotation(_rotation);
 	setScale(_scale);
+	tileTextureKey = _key;
 }
 
 

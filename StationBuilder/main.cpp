@@ -2,13 +2,12 @@
 #include <TGUI/TGUI.hpp>
 #include "isometricLevel.h"
 #include "textureManager.h"
+#include "gameManager.h"
 #include "fps.h"
 #include <iostream>
 #include <fstream>
-#include <boost/archive/tmpdir.hpp>
 
-#include <boost/archive/text_iarchive.hpp>
-#include <boost/archive/text_oarchive.hpp>
+
 const float zoomAmount{ 1.1f };
 sf::Vector2f oldPos;
 bool moving = false;
@@ -24,19 +23,7 @@ void zoomViewAt(sf::Vector2i pixel, sf::RenderWindow& window, float zoom)
     window.setView(view);
 }
 
-void saveLevel(isometricLevel& _levelToSave,  std::string _levelName)
-{   
-    std::ofstream outFileStream(_levelName + ".level");
-    boost::archive::text_oarchive outArchive(outFileStream);
-    outArchive << _levelToSave;
 
-}
-void loadLevel(isometricLevel& _levelToBeRestored, std::string _levelNameToLoad)
-{
-    std::ifstream inFileStream(_levelNameToLoad + ".level");
-    boost::archive::text_iarchive inArchive(inFileStream);
-    inArchive >> _levelToBeRestored;
-}
 int main()
 {
     int screenWidth = 1000;
@@ -56,7 +43,7 @@ int main()
     shape.setFillColor(sf::Color::Green);
 
     
-
+    gameManager gameMaster;
     textureManager textureMaster;//this is master main scope obkect to hold al our textures for all levels,
                                  //we must pass a pointer of this to all isometricLevels so they can get their textures!
                                 //add new textures using addTexture("name","filename"), get them by using getTexture("name")
@@ -64,9 +51,10 @@ int main()
     textureMaster.addTexture("empty", "empty64white.png");
 
     //isometricLevel layerOne(&textureMaster,40,40,64);
-    isometricLevel layerOne(&textureMaster,40,40,64);
-    layerOne.fillFloors();
-    saveLevel(layerOne, "layerOne");
+    isometricLevel layerOne;
+    //layerOne.fillFloors();
+    //gameMaster.saveLevelToDisc(layerOne, "test2");
+    gameMaster.loadLevelFromDisc(layerOne, "test2", &textureMaster);
 
 
     

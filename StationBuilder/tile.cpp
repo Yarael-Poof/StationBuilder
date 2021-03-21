@@ -1,13 +1,14 @@
 #include "tile.h"
-tile::tile(sf::Vector2f _worldPosition, textureManager* _textureMaster, char _tileType)
-{
-	if (_tileType == EMPTY)
+tile::tile(sf::Vector2f _worldPosition, textureManager* _textureMaster, std::string _tileObjectCSVList)
+{	//this will need to be rewritten to be able get each tileObject from _tileObjectCSVList. It is a string with 
+	//the texture keys serpeated by commas.
+	if (_tileObjectCSVList == "empty")
 	{
 		
-		
-		tileObjectsList.push_back(new tileObject(_textureMaster->getTexture("empty"),_worldPosition));
+		//change this to iterate through the _tileObjectCSVList to get texture keys.
+		tileObjectsList.push_back(new tileObject(_textureMaster,"empty",_worldPosition));
 	}
-	else if (_tileType == FLOOR)
+	else if (_tileObjectCSVList == "floor")
 	{
 		
 		

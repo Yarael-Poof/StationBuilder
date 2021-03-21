@@ -5,24 +5,10 @@
 #include "engineMacros.h"
 #include <stdlib.h> 
 #include <string>
-#include <boost/serialization/base_object.hpp>
-#include <boost/serialization/utility.hpp>
-#include <boost/serialization/list.hpp>
-#include <boost/serialization/assume_abstract.hpp>
-#include <boost/serialization/vector.hpp>
+
 //direction chars: 0 = UL, 1 = UR, 2 = LL, 3 = LR
 class isometricLevel
-{	//let boost know what we want to serialise for saving to file
-	friend class boost::serialization::access;
-	template<class Archive>
-	void serialize(Archive& ar, const unsigned int version)
-	{
-		ar& levelTiles;
-		ar& levelSizeW;
-		ar& levelSizeH;
-		ar& tileSize;
-		ar& stackLayer;
-	}
+{	
 
 public:
 	isometricLevel();
@@ -39,12 +25,21 @@ public:
 	void printTileInfos();
 	void drawTilePositionDebug(tgui::Gui& _gui);
 	void setTextureManager(textureManager* _textureMaster);
+	float getSizeW();
+	float getSizeH();
+	float getTileSize();
+	float getStackLayer();
+	void setSizeW(float _sizeW);
+	void setSizeH(float _sizeH);
+	void setTileSize(float _tileSize);
+	void setStackLayer(float _stackLayer);
 	sf::Vector2f isoToCart(sf::Vector2f _cart);
 	sf::Vector2f cartToIso(sf::Vector2f _iso);
+	std::vector<tile> levelTiles;
 	//where our tiles are
 
 protected:
-	std::vector<tile> levelTiles;
+	
 	float levelSizeW;
 	float levelSizeH;
 	float tileSize;
