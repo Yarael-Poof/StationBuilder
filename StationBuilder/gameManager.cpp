@@ -84,7 +84,7 @@ void gameManager::loadLevelFromDisc(isometricLevel& _levelToRestoreInto, std::st
 		}
 
 	}
-	std::cout << "[INFO] "<<_levelName<<"load successfully\n";
+	std::cout << "[INFO] "<<_levelName<<"load successful\n";
 }
 
 sf::Vector2f gameManager::isoToCart(sf::Vector2f _cart)
