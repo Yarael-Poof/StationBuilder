@@ -20,7 +20,7 @@ void gameManager::saveLevelToDisc(isometricLevel& _levelToSave, std::string _lev
 		{
 			textureKeys += (*iter)->tileTextureKey;
 			
-			if (iter != _levelToSave.levelTiles[i].tileObjectsList.end())
+			if (iter != _levelToSave.levelTiles[i].tileObjectsList.begin())
 			{
 				textureKeys += ",";
 			}
@@ -79,8 +79,8 @@ void gameManager::loadLevelFromDisc(isometricLevel& _levelToRestoreInto, std::st
 		{
 			
 
-			
-			_levelToRestoreInto.levelTiles.push_back(tile(cartToIso(sf::Vector2f(toLoad.tileSize/ 2 * x, toLoad.tileSize/ 2 * y)), _textureManager, "empty"));
+			//std::cout << toLoad.tileTypes[x * y] << std::endl;
+			_levelToRestoreInto.levelTiles.push_back(tile(cartToIso(sf::Vector2f(toLoad.tileSize/ 2 * x, toLoad.tileSize/ 2 * y)), _textureManager, toLoad.tileTypes[x*y]));
 		}
 
 	}

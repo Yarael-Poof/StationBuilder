@@ -114,7 +114,6 @@ void isometricLevel::drawTilePositionDebug(tgui::Gui& _gui)
 }
 
 
-
 void isometricLevel::setTextureManager(textureManager* _textureMaster)
 {
 	textureMaster = _textureMaster;
@@ -147,3 +146,26 @@ void isometricLevel::setTileSize(float _tileSize) {
 	tileSize = _tileSize;
 }
 
+void isometricLevel::setLevelOpacity(int _alphaAmount)
+{
+	for (int i = 0; i < levelTiles.size(); i++)
+	{
+		for (std::list<tileObject*>::iterator iter = levelTiles[i].tileObjectsList.begin(); iter != levelTiles[i].tileObjectsList.end(); ++iter)
+
+		{
+			(*iter)->setColor(sf::Color(255, 255, 255, _alphaAmount));
+		}
+	}
+}
+
+void isometricLevel::setZOffset(float _zOffset)
+{
+	for (int i = 0; i < levelTiles.size(); i++)
+	{
+		for (std::list<tileObject*>::iterator iter = levelTiles[i].tileObjectsList.begin(); iter != levelTiles[i].tileObjectsList.end(); ++iter)
+
+		{
+			(*iter)->SetWorldZ(_zOffset);
+		}
+	}
+}

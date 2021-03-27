@@ -16,9 +16,21 @@ tileObject::tileObject(textureManager* _textureMaster, std::string _key, const s
 }
 
 
-void tileObject::SetWorldPosition(float x, float y){}
-void tileObject::SetWorldPosition(const sf::Vector2f& position){}
+void tileObject::SetWorldPosition(float _x, float _y){}
+void tileObject::SetWorldPosition(const sf::Vector2f& _position){}
 sf::Vector2f tileObject::GetWorldPosition() { return worldPosition; }
 
-void tileObject::SetWorldZ(float z){}
+void tileObject::SetWorldZ(float _z)
+{
+	sf::Vector2f currentPosition = getPosition();
+	setPosition(currentPosition.x, currentPosition.y + _z);
+	worldZ = _z;
+}
+
+void tileObject::resetWorldZ()
+{
+	sf::Vector2f currentPosition = getPosition();
+	setPosition(currentPosition.x, currentPosition.y - worldZ);
+	worldZ = 0;
+}
 float tileObject::GetWorldZ() { return worldZ; }

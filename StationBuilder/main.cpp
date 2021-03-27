@@ -27,8 +27,8 @@ void zoomViewAt(sf::Vector2i pixel, sf::RenderWindow& window, float zoom)
 
 int main()
 {
-    int screenWidth = 1000;
-    int screenHeight = 1000;
+    int screenWidth = 1280;
+    int screenHeight = 720;
 
     
     sf::ContextSettings settings;
@@ -37,30 +37,32 @@ int main()
     sf::Clock clock;
     FPS fps;
     tgui::Gui gui{ window };
-    tgui::Button::Ptr button = tgui::Button::create();
-    tgui::EditBox::Ptr editBox = tgui::EditBox::create();
-
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
-    
-    //gameManager gameMaster;
+    gui.loadWidgetsFromFile("stationGUI.txt");
+    tgui::BitmapButton::Ptr upLayerBut = gui.get<tgui::BitmapButton>("upLayer");
+    tgui::BitmapButton::Ptr downLayerBut = gui.get<tgui::BitmapButton>("downLayer");
+    tgui::Label::Ptr currentLayerLabel = gui.get<tgui::Label>("currentLayer");
+   
+    gameManager gameMaster;
     //this is master global scope object to hold al our textures for all levels,
     //we must pass a pointer of this to all isometricLevels so they can get their textures.
     //add new textures using addTexture("name", "filename"), get them by using getTexture("name")
     //returns a pointer to the texture, this keeps them always in scope for any sprite of any level
     textureManager textureMaster;
     textureMaster.addTexture("empty", "empty64white.png");
+    textureMaster.addTexture("floor", "floor64.png");
     station HaxelPort(&textureMaster);
     HaxelPort.appendNewIsoLevel(40, 40, 64);
+    HaxelPort.appendNewIsoLevel(40, 40, 64, "floor");
 
     //isometricLevel layerOne(&textureMaster,40,40,64);
-    //isometricLevel layerOne;
+    isometricLevel layerTwo;
     //layerOne.fillFloors();
     //gameMaster.saveLevelToDisc(layerOne, "test2");
-    //gameMaster.loadLevelFromDisc(layerOne, "test2", &textureMaster);
-
-
+    gameMaster.loadLevelFromDisc(layerTwo, "test2", &textureMaster);
+    HaxelPort.addIsoLevel(layerTwo, 2);
+   
+    upLayerBut->connect("pressed", &station::incCurrentLevel, &HaxelPort);
+    downLayerBut->connect("pressed", &station::decCurrentLevel, &HaxelPort);
     
     
     sf::View view(window.getDefaultView());
@@ -114,9 +116,6 @@ int main()
 
                 window.setView(view);
                 //window.setView(window.getDefaultView());
-
-
-
                 // Save the new position as the old one
                 // We're recalculating this, since we've changed the view
                 oldPos = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
@@ -130,13 +129,26 @@ int main()
                 view.setSize(size.x, size.y);
                 window.setView(view);
                 
-        }
+            }
+            else if (event.type == sf::Event::KeyPressed)
+            {
+                if (event.key.code == sf::Keyboard::PageUp)
+                {
+                    HaxelPort.incCurrentLevel();
+                }
+                else if (event.key.code == sf::Keyboard::PageDown)
+                {
+                    HaxelPort.decCurrentLevel();
+                }
+            }
+
         }
 
         window.clear(sf::Color::Black);
-        gui.draw(); // Draw all widgets
-        HaxelPort.drawLayer(window,HaxelPort.currentLevel);
-        
+        currentLayerLabel->setText(std::to_string(HaxelPort.getCurrentLevel()));
+        HaxelPort.drawLayer(window,HaxelPort.getCurrentLevel());
+        gui.draw();//draw this last so it is always ontop. Should probably use a differnet view for it eventually.
+        //layerOne.draw(window);
         window.display();
         fps.update();
         std::ostringstream ss;

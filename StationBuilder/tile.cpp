@@ -11,8 +11,8 @@ tile::tile(sf::Vector2f _worldPosition, textureManager* _textureMaster, std::str
 	else if (_tileObjectCSVList == "floor")
 	{
 		
+		tileObjectsList.push_back(new tileObject(_textureMaster, "floor", _worldPosition));
 		
-		//tileObjectsList.push_back(new tileObject(texture, _worldPosition));
 	}
 }	
 tile::tile()

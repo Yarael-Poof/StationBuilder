@@ -31,10 +31,13 @@ public:
 	void setSizeW(float _sizeW);
 	void setSizeH(float _sizeH);
 	void setTileSize(float _tileSize);
+
 	sf::Vector2f isoToCart(sf::Vector2f _cart);
 	sf::Vector2f cartToIso(sf::Vector2f _iso);
 	std::vector<tile> levelTiles;
 	//where our tiles are
+	void setLevelOpacity(int _alphaAmount);
+	void setZOffset(float _zOffset);
 
 protected:
 	

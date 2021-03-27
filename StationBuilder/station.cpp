@@ -27,7 +27,7 @@ sf::Vector2f station::cartToIso(sf::Vector2f _iso)
 	cart.y = (_iso.x + _iso.y) / 2;
 	return cart;
 }
-int station::appendNewIsoLevel(float _levelSizeW, float _levelSizeH, float _tileSize)
+int station::appendNewIsoLevel(float _levelSizeW, float _levelSizeH, float _tileSize, std::string _tileBaseTextureKey)
 {	
 	isoLayerList.push_back(isometricLevel(textureMaster, _levelSizeW, _levelSizeH, _tileSize));
 	currentLevel = (isoLayerList.size() - 1);
@@ -38,7 +38,7 @@ int station::appendNewIsoLevel(float _levelSizeW, float _levelSizeH, float _tile
 		for (int x = 0; x < isoLayerList[currentLevel].getSizeW(); x++)
 		{
 			
-			isoLayerList[currentLevel].levelTiles.push_back(tile(cartToIso(sf::Vector2f(isoLayerList[currentLevel].getTileSize() / 2 * x, isoLayerList[currentLevel].getTileSize() / 2 * y)), textureMaster, "empty"));
+			isoLayerList[currentLevel].levelTiles.push_back(tile(cartToIso(sf::Vector2f(isoLayerList[currentLevel].getTileSize() / 2 * x, isoLayerList[currentLevel].getTileSize() / 2 * y)), textureMaster, _tileBaseTextureKey));
 		}
 
 	}
@@ -56,7 +56,7 @@ void station::addIsoLevel(isometricLevel _LevelToAdd, float _atWhichStackLayer)
 	}
 	catch (...)
 	{
-
+		//add checks here to see if we are adding sequentially. i.e do not allow a level to be added to layer 2 if we dont have 0 and 1 already.
 		std::cout << this->debugErrorString + std::string(__func__) << " tried to add a level at a location that does not exist, attempting resize of isoLevelList"<<std::endl;
 		isoLayerList.resize(int(_atWhichStackLayer) + 1);
 		
@@ -69,7 +69,8 @@ void station::addIsoLevel(isometricLevel _LevelToAdd, float _atWhichStackLayer)
 		}
 	}
 
-	std::cout << this->debuginfoString << "level added" << std::endl;
+	std::cout << this->debuginfoString + std::string(__func__) << " resize succesful, level added" << std::endl;
+	currentLevel = _atWhichStackLayer;
 }
 
 bool station::deleteIsoLevel(float _atWhichStackLayer)
@@ -103,4 +104,68 @@ void station::drawLayer(sf::RenderWindow& _win, float _whichStackLayer)
 		exit(EXIT_FAILURE);
 	}
 	isoLayerList[int(_whichStackLayer)].draw(_win);
+}
+
+int station::getLayerListSize()
+{
+	return int(isoLayerList.size());
+}
+
+int station::getCurrentLevel()
+{
+	return currentLevel;
+}
+
+void station::setCurrentLevel(int _levelNumber)
+{
+	currentLevel = _levelNumber;
+}
+void station::incCurrentLevel()
+{
+	if ((currentLevel + 1) >= int(isoLayerList.size()))
+	{
+		std::cout << this->debuginfoString + __func__ << " No higher levels to select" << std::endl;
+		return;
+	}
+	else
+	{
+		
+		currentLevel++;
+		return;
+	}
+	
+}
+
+void station::decCurrentLevel()
+{
+	if (currentLevel - 1 < 0)
+	{
+		std::cout << this->debuginfoString + __func__<< " No lower levels to select" << std::endl;
+		return;
+	}
+	else
+	{
+		currentLevel--;
+		return;
+	}
+}
+
+void station::fadeAndSlideAwayDown()
+{	//animations for switching levls, not finished, needs hooking in somehow to the main render loop.
+	sf::Clock timer;
+	sf::Time startTime = timer.getElapsedTime();
+	int alpha = 255;
+	float zOffsetInc = 0.1;
+	while((timer.getElapsedTime().asMilliseconds() - startTime.asMilliseconds()) < animationDurationms)
+	{
+		isoLayerList[currentLevel].setZOffset(zOffsetInc);
+		isoLayerList[currentLevel].setLevelOpacity(alpha);
+		alpha--;
+		zOffsetInc + 0.1;
+	}
+	return;
+}
+void station::fadeAndSlideAwayUp()
+{
+
 }
