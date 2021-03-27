@@ -56,6 +56,7 @@ int main()
 
     //isometricLevel layerOne(&textureMaster,40,40,64);
     isometricLevel layerTwo;
+    isometricLevel layerThree;
     //layerOne.fillFloors();
     //gameMaster.saveLevelToDisc(layerOne, "test2");
     gameMaster.loadLevelFromDisc(layerTwo, "test2", &textureMaster);
