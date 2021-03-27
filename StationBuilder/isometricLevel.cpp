@@ -132,10 +132,7 @@ float isometricLevel::getTileSize()
 {
 	return tileSize;
 }
-float isometricLevel::getStackLayer()
-{
-	return stackLayer;
-}
+
 
 void isometricLevel::setSizeW(float _sizeW)
 {
@@ -148,9 +145,5 @@ void isometricLevel::setSizeH(float _sizeH)
 void isometricLevel::setTileSize(float _tileSize) {
 
 	tileSize = _tileSize;
-}
-void isometricLevel::setStackLayer(float _stackLayer)
-{
-	stackLayer = _stackLayer;
 }
 

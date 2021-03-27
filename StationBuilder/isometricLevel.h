@@ -28,11 +28,9 @@ public:
 	float getSizeW();
 	float getSizeH();
 	float getTileSize();
-	float getStackLayer();
 	void setSizeW(float _sizeW);
 	void setSizeH(float _sizeH);
 	void setTileSize(float _tileSize);
-	void setStackLayer(float _stackLayer);
 	sf::Vector2f isoToCart(sf::Vector2f _cart);
 	sf::Vector2f cartToIso(sf::Vector2f _iso);
 	std::vector<tile> levelTiles;
@@ -43,7 +41,6 @@ protected:
 	float levelSizeW;
 	float levelSizeH;
 	float tileSize;
-	float	stackLayer = 0; //which level is this at within each floor of the station
 	textureManager* textureMaster;
 };
 

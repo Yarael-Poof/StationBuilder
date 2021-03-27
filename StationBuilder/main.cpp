@@ -3,6 +3,7 @@
 #include "isometricLevel.h"
 #include "textureManager.h"
 #include "gameManager.h"
+#include "station.h"
 #include "fps.h"
 #include <iostream>
 #include <fstream>
@@ -43,18 +44,21 @@ int main()
     shape.setFillColor(sf::Color::Green);
 
     
-    gameManager gameMaster;
-    textureManager textureMaster;//this is master main scope obkect to hold al our textures for all levels,
-                                 //we must pass a pointer of this to all isometricLevels so they can get their textures!
-                                //add new textures using addTexture("name","filename"), get them by using getTexture("name")
-                                //returns a pointer to the texture, this keeps its always in scope for any sprite of any level.
+    //gameManager gameMaster;
+    //this is master global scope object to hold al our textures for all levels,
+    //we must pass a pointer of this to all isometricLevels so they can get their textures.
+    //add new textures using addTexture("name", "filename"), get them by using getTexture("name")
+    //returns a pointer to the texture, this keeps them always in scope for any sprite of any level
+    textureManager textureMaster;
     textureMaster.addTexture("empty", "empty64white.png");
+    station HaxelPort(&textureMaster);
+    HaxelPort.appendNewIsoLevel(40, 40, 64);
 
     //isometricLevel layerOne(&textureMaster,40,40,64);
-    isometricLevel layerOne;
+    //isometricLevel layerOne;
     //layerOne.fillFloors();
     //gameMaster.saveLevelToDisc(layerOne, "test2");
-    gameMaster.loadLevelFromDisc(layerOne, "test2", &textureMaster);
+    //gameMaster.loadLevelFromDisc(layerOne, "test2", &textureMaster);
 
 
     
@@ -131,7 +135,7 @@ int main()
 
         window.clear(sf::Color::Black);
         gui.draw(); // Draw all widgets
-        layerOne.draw(window);
+        HaxelPort.drawLayer(window,HaxelPort.currentLevel);
         
         window.display();
         fps.update();

@@ -11,7 +11,6 @@ void gameManager::saveLevelToDisc(isometricLevel& _levelToSave, std::string _lev
 	toSave.sizeH = _levelToSave.getSizeH();
 	toSave.sizeW = _levelToSave.getSizeW();
 	toSave.tileSize = _levelToSave.getTileSize();
-	toSave.stackLayer = _levelToSave.getStackLayer();
 	for (int i = 0; i < _levelToSave.levelTiles.size(); i++)
 	{
 
@@ -35,7 +34,6 @@ void gameManager::saveLevelToDisc(isometricLevel& _levelToSave, std::string _lev
 		saveArchive << toSave.sizeH;
 		saveArchive << toSave.sizeW;
 		saveArchive << toSave.tileSize;
-		saveArchive << toSave.stackLayer;
 		saveArchive << toSave.tileTypes;   
 	}
 	std::cout << "[INFO] " << _levelName << ".level saved successfully\n";
@@ -53,7 +51,6 @@ void gameManager::loadLevelFromDisc(isometricLevel& _levelToRestoreInto, std::st
 			loadArchive >> toLoad.sizeH;
 			loadArchive >> toLoad.sizeW;
 			loadArchive >> toLoad.tileSize;
-			loadArchive >> toLoad.stackLayer;
 			loadArchive >> toLoad.tileTypes;
 		}
 		catch (...)
@@ -73,7 +70,6 @@ void gameManager::loadLevelFromDisc(isometricLevel& _levelToRestoreInto, std::st
 	_levelToRestoreInto.setSizeH(toLoad.sizeH);
 	_levelToRestoreInto.setSizeW(toLoad.tileSize);
 	_levelToRestoreInto.setTileSize(toLoad.sizeH);
-	_levelToRestoreInto.setStackLayer(toLoad.stackLayer);
 	_levelToRestoreInto.setTextureManager(_textureManager);
 
 	for (int y = 0; y < toLoad.sizeH; y++)
