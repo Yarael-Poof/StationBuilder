@@ -149,7 +149,13 @@ void station::decCurrentLevel()
 		return;
 	}
 }
+void station::setBuildMode(bool _toggle)
+{
+	buildMode = true;
+	
 
+}
+bool station::getBuildMode() { return buildMode; }
 void station::fadeAndSlideAwayDown()
 {	//animations for switching levls, not finished, needs hooking in somehow to the main render loop.
 	sf::Clock timer;
@@ -168,4 +174,29 @@ void station::fadeAndSlideAwayDown()
 void station::fadeAndSlideAwayUp()
 {
 
+}
+
+void station::toggleBuildMode()
+{
+
+
+	buildMode = !buildMode;
+}
+
+isometricLevel* station::getCurrentIsoLevel()
+{
+	return &isoLayerList[currentLevel];
+}
+
+void station::highlightTile(sf::Vector2f _tileCoords, sf::Color _colour)
+{	
+	if (_tileCoords.x > getCurrentIsoLevel()->getSizeH() || _tileCoords.y > getCurrentIsoLevel()->getSizeW() || _tileCoords.x < 0 || _tileCoords.y < 0)
+	{
+		return;
+	}
+	else
+	{
+		
+		isoLayerList[currentLevel].setTileColour(_tileCoords, _colour);
+	}
 }

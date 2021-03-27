@@ -1,13 +1,14 @@
 Label.currentLayer {
-    AutoSize = true;
-    Position = (5, 70);
+    HorizontalAlignment = Center;
+    MaximumTextWidth = 12;
+    Position = (13, 70);
     ScrollbarPolicy = Never;
-    Size = (85.2, 18);
+    Size = (30, 18);
     Text = currentLayer;
     TextSize = 13;
 
     Renderer {
-        backgroundcolor = transparent;
+        backgroundcolor = black;
         bordercolor = #3C3C3C;
         borders = (0, 0, 0, 0);
         textcolor = white;
@@ -19,19 +20,19 @@ BitmapButton.upLayer {
     Image = "up.png";
     ImageScaling = 1;
     Position = (4, 20);
-    Size = (44.2, 44.5292);
+    Size = (48, 48);
     TextSize = 13;
 
     Renderer {
-        backgroundcolor = #F5F5F5;
-        backgroundcolordisabled = #E6E6E6;
-        backgroundcolordown = #EBEBEB;
-        backgroundcolorhover = white;
-        bordercolor = #3C3C3C;
+        backgroundcolor = None;
+        backgroundcolordisabled = #666666;
+        backgroundcolordown = #666666;
+        backgroundcolorhover = #404040;
+        bordercolor = None;
         bordercolordisabled = #7D7D7D;
         bordercolordown = black;
-        bordercolorfocused = #1E1EB4;
-        bordercolorhover = black;
+        bordercolorfocused = None;
+        bordercolorhover = None;
         borders = (1, 1, 1, 1);
         textcolor = #3C3C3C;
         textcolordisabled = #7D7D7D;
@@ -49,19 +50,19 @@ BitmapButton.downLayer {
     Image = "down.png";
     ImageScaling = 1;
     Position = (4, 90);
-    Size = (44.2, 44.5292);
+    Size = (48, 48);
     TextSize = 13;
 
     Renderer {
-        backgroundcolor = #F5F5F5;
-        backgroundcolordisabled = #E6E6E6;
-        backgroundcolordown = #EBEBEB;
-        backgroundcolorhover = white;
-        bordercolor = #3C3C3C;
+        backgroundcolor = None;
+        backgroundcolordisabled = #666666;
+        backgroundcolordown = #666666;
+        backgroundcolorhover = #404040;
+        bordercolor = None;
         bordercolordisabled = #7D7D7D;
         bordercolordown = black;
-        bordercolorfocused = #1E1EB4;
-        bordercolorhover = black;
+        bordercolorfocused = None;
+        bordercolorhover = None;
         borders = (1, 1, 1, 1);
         textcolor = #3C3C3C;
         textcolordisabled = #7D7D7D;
@@ -72,5 +73,70 @@ BitmapButton.downLayer {
         texturedown = None;
         texturefocused = None;
         texturehover = None;
+    }
+}
+
+BitmapButton.build {
+    Image = "build.png";
+    ImageScaling = 1;
+    Position = (4, 160);
+    Size = (48, 48);
+    TextSize = 13;
+
+    Renderer {
+        backgroundcolor = None;
+        backgroundcolordisabled = #666666;
+        backgroundcolordown = #666666;
+        backgroundcolorhover = #404040;
+        bordercolor = None;
+        bordercolordisabled = #7D7D7D;
+        bordercolordown = black;
+        bordercolorfocused = None;
+        bordercolorhover = None;
+        borders = (1, 1, 1, 1);
+        textcolor = #3C3C3C;
+        textcolordisabled = #7D7D7D;
+        textcolordown = black;
+        textcolorhover = black;
+        texture = None;
+        texturedisabled = None;
+        texturedown = None;
+        texturefocused = None;
+        texturehover = None;
+    }
+}
+
+Label.screenPosLabel {
+    MaximumTextWidth = 40;
+    Position = (60, 164);
+    ScrollbarPolicy = Never;
+    Size = (67.2, 18);
+    Text = Label;
+    TextSize = 13;
+    Visible = false;
+
+    Renderer {
+        backgroundcolor = black;
+        bordercolor = #3C3C3C;
+        borders = (0, 0, 0, 0);
+        textcolor = white;
+        texturebackground = None;
+    }
+}
+
+Label.worldPosLabel {
+    Position = (60, 184);
+    ScrollbarPolicy = Never;
+    Size = (67.2, 18);
+    Text = Label;
+    TextSize = 13;
+    Visible = false;
+
+    Renderer {
+        backgroundcolor = black;
+        bordercolor = #3C3C3C;
+        borders = (0, 0, 0, 0);
+        textcolor = white;
+        texturebackground = None;
     }
 }

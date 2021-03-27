@@ -23,6 +23,7 @@ public:
 	void clearTile();
 	void drawAllObjects(sf::RenderWindow& _window);
 	void printAllObjectsInTile();
+	void setTileObjectColour(sf::Color _colour);
 	sf::Vector2f getRootObjectCoords();//will look at tileObjecstList[0] and turn the objects world position.
 	std::list<tileObject*> tileObjectsList;
 

@@ -17,6 +17,8 @@ public:
 	void addIsoLevel(isometricLevel _LevelToAdd, float _atWhichStackLayer);
 	void drawLayer(sf::RenderWindow& _win, float _whichStackLayer);
 	isometricLevel* getIsoLevel(float _atWhichStackLayer);
+	isometricLevel* getCurrentIsoLevel();
+	void highlightTile(sf::Vector2f _tileCoords, sf::Color _colour);
 	sf::Vector2f isoToCart(sf::Vector2f _cart);
 	sf::Vector2f cartToIso(sf::Vector2f _iso);
 	int getLayerListSize();
@@ -26,8 +28,13 @@ public:
 	void decCurrentLevel();
 	void fadeAndSlideAwayUp();
 	void fadeAndSlideAwayDown();
+	void setBuildMode(bool _toggle);
+	void toggleBuildMode();
+	bool getBuildMode();
 
 private:
+
+	bool buildMode = false;
 	int animationDurationms = 255;
 	int currentLevel = 0;
 	textureManager* textureMaster;

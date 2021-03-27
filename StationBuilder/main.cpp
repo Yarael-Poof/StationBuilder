@@ -23,7 +23,14 @@ void zoomViewAt(sf::Vector2i pixel, sf::RenderWindow& window, float zoom)
     view.move(offsetCoords);
     window.setView(view);
 }
-
+template <typename T>
+std::string to_string_with_precision(const T a_value, const int n = 6)
+{
+    std::ostringstream out;
+    out.precision(n);
+    out << std::fixed << a_value;
+    return out.str();
+}
 
 int main()
 {
@@ -35,13 +42,19 @@ int main()
     settings.antialiasingLevel = 8;
     sf::RenderWindow window(sf::VideoMode(screenWidth, screenHeight), "SFML works!", sf::Style::Default, settings);
     sf::Clock clock;
+   
+ 
     FPS fps;
     tgui::Gui gui{ window };
     gui.loadWidgetsFromFile("stationGUI.txt");
     tgui::BitmapButton::Ptr upLayerBut = gui.get<tgui::BitmapButton>("upLayer");
     tgui::BitmapButton::Ptr downLayerBut = gui.get<tgui::BitmapButton>("downLayer");
+    tgui::BitmapButton::Ptr buildBut = gui.get<tgui::BitmapButton>("build");
     tgui::Label::Ptr currentLayerLabel = gui.get<tgui::Label>("currentLayer");
-   
+    tgui::Label::Ptr screenPosLabel = gui.get<tgui::Label>("screenPosLabel");
+    tgui::Label::Ptr worldPosLabel = gui.get<tgui::Label>("worldPosLabel");
+    
+
     gameManager gameMaster;
     //this is master global scope object to hold al our textures for all levels,
     //we must pass a pointer of this to all isometricLevels so they can get their textures.
@@ -56,7 +69,6 @@ int main()
 
     //isometricLevel layerOne(&textureMaster,40,40,64);
     isometricLevel layerTwo;
-    isometricLevel layerThree;
     //layerOne.fillFloors();
     //gameMaster.saveLevelToDisc(layerOne, "test2");
     gameMaster.loadLevelFromDisc(layerTwo, "test2", &textureMaster);
@@ -64,6 +76,7 @@ int main()
    
     upLayerBut->connect("pressed", &station::incCurrentLevel, &HaxelPort);
     downLayerBut->connect("pressed", &station::decCurrentLevel, &HaxelPort);
+    buildBut->connect("pressed", &station::toggleBuildMode, &HaxelPort);
     
     
     sf::View view(window.getDefaultView());
@@ -129,6 +142,7 @@ int main()
 
                 view.setSize(size.x, size.y);
                 window.setView(view);
+                //gui.setView(window.getView()); sort out buttons streching with resize at some point
                 
             }
             else if (event.type == sf::Event::KeyPressed)
@@ -146,6 +160,25 @@ int main()
         }
 
         window.clear(sf::Color::Black);
+        if (HaxelPort.getBuildMode() == true)
+        {
+            sf::Mouse mouse;
+            screenPosLabel->setVisible(true);
+            worldPosLabel->setVisible(true);
+            sf::Vector2i mousePositionRel = mouse.getPosition(window);
+            sf::Vector2f worldPositionCart = HaxelPort.isoToCart(window.mapPixelToCoords(mousePositionRel,window.getView()));
+            sf::Vector2f tileCoords = sf::Vector2f(floor(worldPositionCart.x / 32.f), floor(worldPositionCart.y / 32.f));
+            std::string screenPos = std::to_string(mousePositionRel.x) + ","+ std::to_string(mousePositionRel.y);
+
+            screenPosLabel->setText(screenPos);
+            worldPosLabel->setText(to_string_with_precision(tileCoords.x, 0) + "," + to_string_with_precision(tileCoords.y, 0));
+            HaxelPort.highlightTile(tileCoords, sf::Color::Red);
+        }
+        else
+        {
+            screenPosLabel->setVisible(false);
+            worldPosLabel->setVisible(false);
+        }
         currentLayerLabel->setText(std::to_string(HaxelPort.getCurrentLevel()));
         HaxelPort.drawLayer(window,HaxelPort.getCurrentLevel());
         gui.draw();//draw this last so it is always ontop. Should probably use a differnet view for it eventually.

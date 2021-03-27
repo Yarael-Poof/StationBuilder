@@ -62,3 +62,11 @@ sf::Vector2f tile::getRootObjectCoords()
 	std::list<tileObject*>::iterator root = tileObjectsList.begin();
 	return (*root)->getPosition();
 }
+
+void tile::setTileObjectColour(sf::Color _colour)
+{
+	for (std::list<tileObject*>::iterator iter = tileObjectsList.begin(); iter != tileObjectsList.end(); ++iter)
+	{
+		(*iter)->setColor(_colour);
+	}
+}

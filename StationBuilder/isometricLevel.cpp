@@ -169,3 +169,10 @@ void isometricLevel::setZOffset(float _zOffset)
 		}
 	}
 }
+
+void isometricLevel::setTileColour(sf::Vector2f _tileCoords, sf::Color _colour)
+{
+	int currentTile = int(_tileCoords.x) * int(_tileCoords.y);
+	levelTiles[currentTile].setTileObjectColour(_colour);
+		
+}

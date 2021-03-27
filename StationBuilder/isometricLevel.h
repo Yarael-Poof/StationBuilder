@@ -37,6 +37,7 @@ public:
 	std::vector<tile> levelTiles;
 	//where our tiles are
 	void setLevelOpacity(int _alphaAmount);
+	void setTileColour(sf::Vector2f _tileCoords, sf::Color _colour);
 	void setZOffset(float _zOffset);
 
 protected:
