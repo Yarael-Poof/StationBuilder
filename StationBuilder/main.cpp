@@ -70,7 +70,8 @@ int main()
     //isometricLevel layerOne(&textureMaster,40,40,64);
     isometricLevel layerTwo;
     //layerOne.fillFloors();
-    //gameMaster.saveLevelToDisc(layerOne, "test2");
+   
+    //gameMaster.saveLevelToDisc(HaxelPort.getCurrentIsoLevel(), "test2");
     gameMaster.loadLevelFromDisc(layerTwo, "test2", &textureMaster);
     HaxelPort.addIsoLevel(layerTwo, 2);
    
@@ -168,8 +169,9 @@ int main()
             sf::Vector2i mousePositionRel = mouse.getPosition(window);
             sf::Vector2f worldPositionCart = HaxelPort.isoToCart(window.mapPixelToCoords(mousePositionRel,window.getView()));
             sf::Vector2f tileCoords = sf::Vector2f(floor(worldPositionCart.x / 32.f), floor(worldPositionCart.y / 32.f));
+            tileCoords.x = std::clamp(tileCoords.x, 1.f, HaxelPort.getCurrentIsoLevel()->getSizeW());
+            tileCoords.y = std::clamp(tileCoords.y, 1.f, HaxelPort.getCurrentIsoLevel()->getSizeH());
             std::string screenPos = std::to_string(mousePositionRel.x) + ","+ std::to_string(mousePositionRel.y);
-
             screenPosLabel->setText(screenPos);
             worldPosLabel->setText(to_string_with_precision(tileCoords.x, 0) + "," + to_string_with_precision(tileCoords.y, 0));
             HaxelPort.highlightTile(tileCoords, sf::Color::Red);

@@ -139,7 +139,7 @@ void isometricLevel::setSizeW(float _sizeW)
 }
 void isometricLevel::setSizeH(float _sizeH)
 {
-	levelSizeW = _sizeH;
+	levelSizeH = _sizeH;
 }
 void isometricLevel::setTileSize(float _tileSize) {
 
@@ -172,7 +172,16 @@ void isometricLevel::setZOffset(float _zOffset)
 
 void isometricLevel::setTileColour(sf::Vector2f _tileCoords, sf::Color _colour)
 {
-	int currentTile = int(_tileCoords.x) * int(_tileCoords.y);
+	int currentTile = int(_tileCoords.x - 1) + (levelSizeW*(int(_tileCoords.y - 1)));
 	levelTiles[currentTile].setTileObjectColour(_colour);
 		
+}
+
+void isometricLevel::clearTileColour()
+{
+	for (int i = 0; i < levelTiles.size(); i++)
+	{
+		levelTiles[i].setTileObjectColour(sf::Color::White);
+	}
+	return;
 }

@@ -91,7 +91,7 @@ bool station::deleteIsoLevel(float _atWhichStackLayer)
 void station::deleteAllLevels()
 {
 	isoLayerList.clear();
-	std::cout << this->debuginfoString << "cleard all levels" << std::endl;
+	std::cout << this->debuginfoString << "cleared all levels" << std::endl;
 }
 
 void station::drawLayer(sf::RenderWindow& _win, float _whichStackLayer)
@@ -151,7 +151,7 @@ void station::decCurrentLevel()
 }
 void station::setBuildMode(bool _toggle)
 {
-	buildMode = true;
+	buildMode = _toggle;
 	
 
 }
@@ -178,9 +178,12 @@ void station::fadeAndSlideAwayUp()
 
 void station::toggleBuildMode()
 {
-
-
 	buildMode = !buildMode;
+	if (buildMode == false)//if we exit build mode, clear all highlighting on all levels.
+	{	for(int i = 0;i < isoLayerList.size(); i ++)
+
+		isoLayerList[i].clearTileColour();
+	}
 }
 
 isometricLevel* station::getCurrentIsoLevel()
@@ -190,13 +193,6 @@ isometricLevel* station::getCurrentIsoLevel()
 
 void station::highlightTile(sf::Vector2f _tileCoords, sf::Color _colour)
 {	
-	if (_tileCoords.x > getCurrentIsoLevel()->getSizeH() || _tileCoords.y > getCurrentIsoLevel()->getSizeW() || _tileCoords.x < 0 || _tileCoords.y < 0)
-	{
-		return;
-	}
-	else
-	{
-		
+	
 		isoLayerList[currentLevel].setTileColour(_tileCoords, _colour);
-	}
 }

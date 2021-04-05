@@ -40,6 +40,6 @@ private:
 	textureManager* textureMaster;
 	std::vector<isometricLevel> isoLayerList;
 	std::string debugErrorString = "[ERROR] from [Station].";
-	std::string debuginfoString = "[Station] ";
+	std::string debuginfoString = "[INFO] from [Station].";
 };
 

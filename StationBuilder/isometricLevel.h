@@ -34,10 +34,10 @@ public:
 
 	sf::Vector2f isoToCart(sf::Vector2f _cart);
 	sf::Vector2f cartToIso(sf::Vector2f _iso);
-	std::vector<tile> levelTiles;
-	//where our tiles are
+	std::vector<tile> levelTiles;//where our tiles are
 	void setLevelOpacity(int _alphaAmount);
 	void setTileColour(sf::Vector2f _tileCoords, sf::Color _colour);
+	void clearTileColour();
 	void setZOffset(float _zOffset);
 
 protected:
