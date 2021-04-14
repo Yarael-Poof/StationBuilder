@@ -196,3 +196,14 @@ void station::highlightTile(sf::Vector2f _tileCoords, sf::Color _colour)
 	
 		isoLayerList[currentLevel].setTileColour(_tileCoords, _colour);
 }
+
+void station::highlightAllTiles(sf::Color _colour)
+{
+	for (int y = 1; y < isoLayerList[currentLevel].getSizeH() + 1; y++)
+	{
+		for (int x = 1; x < isoLayerList[currentLevel].getSizeW() + 1; x++)
+		{ 
+			isoLayerList[currentLevel].setTileColour(sf::Vector2f(x, y), _colour);
+		}
+	}
+}

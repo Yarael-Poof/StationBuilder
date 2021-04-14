@@ -31,6 +31,7 @@ public:
 	void setBuildMode(bool _toggle);
 	void toggleBuildMode();
 	bool getBuildMode();
+	void highlightAllTiles(sf::Color _colour);
 
 private:
 

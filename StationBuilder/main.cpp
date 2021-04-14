@@ -161,6 +161,7 @@ int main()
         }
 
         window.clear(sf::Color::Black);
+        HaxelPort.highlightAllTiles(sf::Color::White);
         if (HaxelPort.getBuildMode() == true)
         {
             sf::Mouse mouse;
