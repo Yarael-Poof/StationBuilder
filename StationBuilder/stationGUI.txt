@@ -8,101 +8,107 @@ Label.currentLayer {
     TextSize = 13;
 
     Renderer {
-        backgroundcolor = black;
-        bordercolor = #3C3C3C;
-        borders = (0, 0, 0, 0);
-        textcolor = white;
-        texturebackground = None;
+        BackgroundColor = black;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = white;
+        TextureBackground = None;
     }
 }
 
 BitmapButton.upLayer {
-    Image = "up.png";
+    Image = "up.png" Smooth;
     ImageScaling = 1;
     Position = (4, 20);
     Size = (48, 48);
     TextSize = 13;
 
     Renderer {
-        backgroundcolor = None;
-        backgroundcolordisabled = #666666;
-        backgroundcolordown = #666666;
-        backgroundcolorhover = #404040;
-        bordercolor = None;
-        bordercolordisabled = #7D7D7D;
-        bordercolordown = black;
-        bordercolorfocused = None;
-        bordercolorhover = None;
-        borders = (1, 1, 1, 1);
-        textcolor = #3C3C3C;
-        textcolordisabled = #7D7D7D;
-        textcolordown = black;
-        textcolorhover = black;
-        texture = None;
-        texturedisabled = None;
-        texturedown = None;
-        texturefocused = None;
-        texturehover = None;
+        BackgroundColor = black;
+        BackgroundColorDisabled = #666666;
+        BackgroundColorDown = #666666;
+        BackgroundColorHover = #404040;
+        BorderColor = None;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = None;
+        BorderColorHover = None;
+        Borders = (1, 1, 1, 1);
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorHover = black;
+        Texture = None;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = None;
     }
 }
 
 BitmapButton.downLayer {
-    Image = "down.png";
+    Image = "down.png" Smooth;
     ImageScaling = 1;
     Position = (4, 90);
     Size = (48, 48);
     TextSize = 13;
 
     Renderer {
-        backgroundcolor = None;
-        backgroundcolordisabled = #666666;
-        backgroundcolordown = #666666;
-        backgroundcolorhover = #404040;
-        bordercolor = None;
-        bordercolordisabled = #7D7D7D;
-        bordercolordown = black;
-        bordercolorfocused = None;
-        bordercolorhover = None;
-        borders = (1, 1, 1, 1);
-        textcolor = #3C3C3C;
-        textcolordisabled = #7D7D7D;
-        textcolordown = black;
-        textcolorhover = black;
-        texture = None;
-        texturedisabled = None;
-        texturedown = None;
-        texturefocused = None;
-        texturehover = None;
+        BackgroundColor = black;
+        BackgroundColorDisabled = #666666;
+        BackgroundColorDown = #666666;
+        BackgroundColorHover = #404040;
+        BorderColor = None;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = None;
+        BorderColorHover = None;
+        Borders = (1, 1, 1, 1);
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorHover = black;
+        Texture = None;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = None;
     }
 }
 
 BitmapButton.build {
-    Image = "build.png";
+    Image = "build.png" Smooth;
     ImageScaling = 1;
     Position = (4, 160);
     Size = (48, 48);
     TextSize = 13;
 
     Renderer {
-        backgroundcolor = None;
-        backgroundcolordisabled = #666666;
-        backgroundcolordown = #666666;
-        backgroundcolorhover = #404040;
-        bordercolor = None;
-        bordercolordisabled = #7D7D7D;
-        bordercolordown = black;
-        bordercolorfocused = None;
-        bordercolorhover = None;
-        borders = (1, 1, 1, 1);
-        textcolor = #3C3C3C;
-        textcolordisabled = #7D7D7D;
-        textcolordown = black;
-        textcolorhover = black;
-        texture = None;
-        texturedisabled = None;
-        texturedown = None;
-        texturefocused = None;
-        texturehover = None;
+        BackgroundColor = black;
+        BackgroundColorDisabled = #666666;
+        BackgroundColorDown = #666666;
+        BackgroundColorHover = #404040;
+        BorderColor = None;
+        BorderColorDisabled = #7D7D7D;
+        BorderColorDown = black;
+        BorderColorFocused = None;
+        BorderColorHover = None;
+        Borders = (1, 1, 1, 1);
+        TextColor = #3C3C3C;
+        TextColorDisabled = #7D7D7D;
+        TextColorDown = black;
+        TextColorHover = black;
+        Texture = None;
+        TextureDisabled = None;
+        TextureDown = None;
+        TextureDownFocused = None;
+        TextureDownHover = None;
+        TextureFocused = None;
+        TextureHover = None;
     }
 }
 
@@ -116,11 +122,11 @@ Label.screenPosLabel {
     Visible = false;
 
     Renderer {
-        backgroundcolor = black;
-        bordercolor = #3C3C3C;
-        borders = (0, 0, 0, 0);
-        textcolor = white;
-        texturebackground = None;
+        BackgroundColor = black;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = white;
+        TextureBackground = None;
     }
 }
 
@@ -133,10 +139,23 @@ Label.worldPosLabel {
     Visible = false;
 
     Renderer {
-        backgroundcolor = black;
-        bordercolor = #3C3C3C;
-        borders = (0, 0, 0, 0);
-        textcolor = white;
-        texturebackground = None;
+        BackgroundColor = black;
+        BorderColor = #3C3C3C;
+        Borders = (0, 0, 0, 0);
+        TextColor = white;
+        TextureBackground = None;
+    }
+}
+
+ScrollablePanel.buildPanel {
+    ContentSize = (0, 0);
+    Enabled = false;
+    Position = (620, 10);
+    Size = (180, 190);
+    Visible = false;
+
+    Renderer {
+        BackgroundColor = #404040;
+        TextureBackground = None;
     }
 }

@@ -92,7 +92,7 @@ void isometricLevel::printTileInfos()
 	}
 }
 
-void isometricLevel::drawTilePositionDebug(tgui::Gui& _gui)
+void isometricLevel::drawTilePositionDebug(tgui::GuiSFML& _gui)
 { //INOP to be rewritten
 	for (int i = 0; i < levelTiles.size(); i++)
 	{
@@ -104,8 +104,8 @@ void isometricLevel::drawTilePositionDebug(tgui::Gui& _gui)
 		tileCoordsString = tilePosition.x + ',' + tilePosition.y;
 		tileNumberLabel->setText(tileNumberString);
 		tileCoordsLabel->setText(tileCoordsString);
-		tileNumberLabel->setPosition(tilePosition);
-		tileCoordsLabel->setPosition(tilePosition);
+		tileNumberLabel->setPosition(tgui::Layout2d::Layout2d(tilePosition));
+		tileCoordsLabel->setPosition(tgui::Layout2d::Layout2d(tilePosition));
 		_gui.add(tileCoordsLabel);
 		_gui.add(tileNumberLabel);
 

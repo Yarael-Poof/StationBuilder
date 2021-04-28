@@ -12,6 +12,13 @@
 const float zoomAmount{ 1.1f };
 sf::Vector2f oldPos;
 bool moving = false;
+
+void updateTextSize(tgui::GuiBase& gui)
+{
+    // Update the text size of all widgets in the gui, based on the current window height
+    const float windowHeight = gui.getView().getRect().height;
+    gui.setTextSize(static_cast<unsigned int>(0.07f * windowHeight)); // 7% of height
+}
 void zoomViewAt(sf::Vector2i pixel, sf::RenderWindow& window, float zoom)
 {
     const sf::Vector2f beforeCoord{ window.mapPixelToCoords(pixel) };
@@ -45,7 +52,7 @@ int main()
    
  
     FPS fps;
-    tgui::Gui gui{ window };
+    tgui::GuiSFML gui{ window };
     gui.loadWidgetsFromFile("stationGUI.txt");
     tgui::BitmapButton::Ptr upLayerBut = gui.get<tgui::BitmapButton>("upLayer");
     tgui::BitmapButton::Ptr downLayerBut = gui.get<tgui::BitmapButton>("downLayer");
@@ -53,7 +60,7 @@ int main()
     tgui::Label::Ptr currentLayerLabel = gui.get<tgui::Label>("currentLayer");
     tgui::Label::Ptr screenPosLabel = gui.get<tgui::Label>("screenPosLabel");
     tgui::Label::Ptr worldPosLabel = gui.get<tgui::Label>("worldPosLabel");
-    
+    tgui::ScrollablePanel::Ptr buildPanel = gui.get<tgui::ScrollablePanel>("buildPanel");
 
     gameManager gameMaster;
     //this is master global scope object to hold al our textures for all levels,
@@ -75,9 +82,9 @@ int main()
     gameMaster.loadLevelFromDisc(layerTwo, "test2", &textureMaster);
     HaxelPort.addIsoLevel(layerTwo, 2);
    
-    upLayerBut->connect("pressed", &station::incCurrentLevel, &HaxelPort);
-    downLayerBut->connect("pressed", &station::decCurrentLevel, &HaxelPort);
-    buildBut->connect("pressed", &station::toggleBuildMode, &HaxelPort);
+    upLayerBut->onClick(&station::incCurrentLevel, &HaxelPort);
+    downLayerBut->onClick(&station::decCurrentLevel, &HaxelPort);
+    buildBut->onClick(&station::toggleBuildMode, &HaxelPort);
     
     
     sf::View view(window.getDefaultView());
@@ -127,9 +134,10 @@ int main()
                 // Swap these to invert the movement direction
                 const sf::Vector2f deltaPos = oldPos - newPos;
                 // Move our view accordingly and update the window
-                view.move(deltaPos);
+                sf::View movedView{ window.getView() };
+                movedView.move(deltaPos);
 
-                window.setView(view);
+                window.setView(movedView);
                 //window.setView(window.getDefaultView());
                 // Save the new position as the old one
                 // We're recalculating this, since we've changed the view
@@ -167,6 +175,7 @@ int main()
             sf::Mouse mouse;
             screenPosLabel->setVisible(true);
             worldPosLabel->setVisible(true);
+            buildPanel->setVisible(true);
             sf::Vector2i mousePositionRel = mouse.getPosition(window);
             sf::Vector2f worldPositionCart = HaxelPort.isoToCart(window.mapPixelToCoords(mousePositionRel,window.getView()));
             sf::Vector2f tileCoords = sf::Vector2f(floor(worldPositionCart.x / 32.f), floor(worldPositionCart.y / 32.f));
@@ -181,6 +190,7 @@ int main()
         {
             screenPosLabel->setVisible(false);
             worldPosLabel->setVisible(false);
+            buildPanel->setVisible(true);
         }
         currentLayerLabel->setText(std::to_string(HaxelPort.getCurrentLevel()));
         HaxelPort.drawLayer(window,HaxelPort.getCurrentLevel());
