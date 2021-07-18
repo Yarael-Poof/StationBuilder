@@ -29,6 +29,7 @@ void zoomViewAt(sf::Vector2i pixel, sf::RenderWindow& window, float zoom)
     const sf::Vector2f offsetCoords{ beforeCoord - afterCoord };
     view.move(offsetCoords);
     window.setView(view);
+
 }
 template <typename T>
 std::string to_string_with_precision(const T a_value, const int n = 6)
@@ -41,8 +42,8 @@ std::string to_string_with_precision(const T a_value, const int n = 6)
 
 int main()
 {
-    int screenWidth = 1280;
-    int screenHeight = 720;
+    int screenWidth = 1920;
+    int screenHeight = 1080;
 
     
     sf::ContextSettings settings;
@@ -53,38 +54,54 @@ int main()
  
     FPS fps;
     tgui::GuiSFML gui{ window };
-    gui.loadWidgetsFromFile("stationGUI.txt");
+    gui.loadWidgetsFromFile("gui/stationGUI.txt");
     tgui::BitmapButton::Ptr upLayerBut = gui.get<tgui::BitmapButton>("upLayer");
     tgui::BitmapButton::Ptr downLayerBut = gui.get<tgui::BitmapButton>("downLayer");
     tgui::BitmapButton::Ptr buildBut = gui.get<tgui::BitmapButton>("build");
+    tgui::BitmapButton::Ptr bugBut = gui.get<tgui::BitmapButton>("bug");
+    tgui::BitmapButton::Ptr saveBut = gui.get<tgui::BitmapButton>("save");
     tgui::Label::Ptr currentLayerLabel = gui.get<tgui::Label>("currentLayer");
     tgui::Label::Ptr screenPosLabel = gui.get<tgui::Label>("screenPosLabel");
     tgui::Label::Ptr worldPosLabel = gui.get<tgui::Label>("worldPosLabel");
-    tgui::ScrollablePanel::Ptr buildPanel = gui.get<tgui::ScrollablePanel>("buildPanel");
+    tgui::Label::Ptr fpsLabel = gui.get<tgui::Label>("fpsLabel");
+    tgui::ListBox::Ptr buildMenu = gui.get<tgui::ListBox>("buildMenu");
+
+   
 
     gameManager gameMaster;
-    //this is master global scope object to hold al our textures for all levels,
+    //this is a master global scope object to hold all our textures for all levels,
     //we must pass a pointer of this to all isometricLevels so they can get their textures.
     //add new textures using addTexture("name", "filename"), get them by using getTexture("name")
     //returns a pointer to the texture, this keeps them always in scope for any sprite of any level
     textureManager textureMaster;
-    textureMaster.addTexture("empty", "empty64white.png");
-    textureMaster.addTexture("floor", "floor64.png");
+    textureMaster.addTexture("empty", "tiles/empty64white.png");
+    textureMaster.addTexture("floor", "tiles/floor64.png");
+    textureMaster.addTexture("wallUL", "tiles/wallUL.png");
+    textureMaster.addTexture("wallUR", "tiles/wallUR.png");
+    
+    for (int i = 0; i < textureMaster.getTextureMapSize(); i++)
+    {
+        buildMenu->addItem(textureMaster.getTextureKey(i));
+    }
+    
+    
+
     station HaxelPort(&textureMaster);
     HaxelPort.appendNewIsoLevel(40, 40, 64);
     HaxelPort.appendNewIsoLevel(40, 40, 64, "floor");
 
     //isometricLevel layerOne(&textureMaster,40,40,64);
-    isometricLevel layerTwo;
     //layerOne.fillFloors();
    
     //gameMaster.saveLevelToDisc(HaxelPort.getCurrentIsoLevel(), "test2");
-    gameMaster.loadLevelFromDisc(layerTwo, "test2", &textureMaster);
-    HaxelPort.addIsoLevel(layerTwo, 2);
+    //gameMaster.loadLevelFromDisc(layerTwo, "test2", &textureMaster);
+    //HaxelPort.addIsoLevel(layerTwo, 2);
    
     upLayerBut->onClick(&station::incCurrentLevel, &HaxelPort);
     downLayerBut->onClick(&station::decCurrentLevel, &HaxelPort);
     buildBut->onClick(&station::toggleBuildMode, &HaxelPort);
+    bugBut->onClick(&station::toggleDebugMode, &HaxelPort);
+    saveBut->onClick(&gameManager::saveStationToDisc, &gameMaster, &HaxelPort, "Haxel_Port");
     
     
     sf::View view(window.getDefaultView());
@@ -175,7 +192,7 @@ int main()
             sf::Mouse mouse;
             screenPosLabel->setVisible(true);
             worldPosLabel->setVisible(true);
-            buildPanel->setVisible(true);
+            buildMenu->setVisible(true);
             sf::Vector2i mousePositionRel = mouse.getPosition(window);
             sf::Vector2f worldPositionCart = HaxelPort.isoToCart(window.mapPixelToCoords(mousePositionRel,window.getView()));
             sf::Vector2f tileCoords = sf::Vector2f(floor(worldPositionCart.x / 32.f), floor(worldPositionCart.y / 32.f));
@@ -185,12 +202,27 @@ int main()
             screenPosLabel->setText(screenPos);
             worldPosLabel->setText(to_string_with_precision(tileCoords.x, 0) + "," + to_string_with_precision(tileCoords.y, 0));
             HaxelPort.highlightTile(tileCoords, sf::Color::Red);
+            if (mouse.isButtonPressed(sf::Mouse::Button::Left) && floor(worldPositionCart.x / 32.f) < HaxelPort.getCurrentIsoLevel()->getSizeW() && floor(worldPositionCart.y / 32.f) < HaxelPort.getCurrentIsoLevel()->getSizeH())
+            {
+                //HaxelPort.getCurrentIsoLevel()->printTileInfo(tileCoords);
+                
+                HaxelPort.getCurrentIsoLevel()->addObjectToTile(tileCoords, textureMaster.getTextureKey(buildMenu->getSelectedItemIndex()));
+            }
         }
         else
         {
             screenPosLabel->setVisible(false);
             worldPosLabel->setVisible(false);
-            buildPanel->setVisible(true);
+            buildMenu->setVisible(false);
+        }
+        if (HaxelPort.getDebugMode() == true)
+        {
+            fpsLabel->setVisible(true);
+            fpsLabel->setText("FPS: " + tgui::String(fps.getFPS()));
+        }
+        else
+        {
+            fpsLabel->setVisible(false);
         }
         currentLayerLabel->setText(std::to_string(HaxelPort.getCurrentLevel()));
         HaxelPort.drawLayer(window,HaxelPort.getCurrentLevel());

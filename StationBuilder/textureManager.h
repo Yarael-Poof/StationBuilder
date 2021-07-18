@@ -14,6 +14,7 @@ public:
 		}
 		texture.setSmooth(false);
 		textureMap[_key] = texture;
+		keyMap[textureMap.size()] = _key;
 	}
 	sf::Texture* getTexture(std::string _key)
 	{
@@ -24,14 +25,28 @@ public:
 		}
 		return &textureMap[_key];
 	}
+	std::string getTextureKey(int _index)
+	{
+		if (_index == -1)
+		{
+			return "empty";
+		}
+		return keyMap[_index];
+	}
 
 	void setTextureSmooth(std::string _key, bool _toggle)
 	{
 		textureMap[_key].setSmooth(_toggle);
 	}
+
+	int getTextureMapSize()
+	{
+		return textureMap.size();
+	}
 private:
 	std::map<std::string, sf::Texture> textureMap;
 	std::string debugErrorString = "[ERROR] from [Texture Manager].";
 	std::string debuginfoString = "[Texture Manager] ";
+	std::map<int, std::string> keyMap;
 };
 

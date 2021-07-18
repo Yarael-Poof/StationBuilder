@@ -1,6 +1,26 @@
 #include "gameManager.h"
 
-//need to add strem buffers here, writing is already really slow for just 25KB
+void gameManager::saveStationToDisc(station* _stationToSave, std::string _stationName)
+{
+	std::cout << "\n[INFO] Saving " << _stationName << " please wait...\n";
+	boost::filesystem::path dir(_stationName);
+	if (!(boost::filesystem::exists(dir))) {
+		std::cout << "Doesn't Exists" << std::endl;
+
+		if (boost::filesystem::create_directory(dir))
+			std::cout << "....Successfully Created !" << std::endl;
+	}
+	for (int currentLevel = 0; currentLevel < _stationToSave->getLayerListSize(); currentLevel++)
+	{
+		saveLevelToDisc(_stationToSave->getIsoLevel(currentLevel), _stationName + "/" + std::to_string(currentLevel));
+	}
+}
+
+void loadLevelFromDisc(station& _stationToRestoreInto, std::string _stationName, textureManager* _textureManager)
+{
+	std::cout << "\n[INFO] Loading " << _stationName << "please wait...\n";
+
+}
 
 
 void gameManager::saveLevelToDisc(isometricLevel* _levelToSave, std::string _levelName)

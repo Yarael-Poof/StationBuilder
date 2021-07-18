@@ -17,25 +17,30 @@ public:
 	void addIsoLevel(isometricLevel _LevelToAdd, float _atWhichStackLayer);
 	void drawLayer(sf::RenderWindow& _win, float _whichStackLayer);
 	isometricLevel* getIsoLevel(float _atWhichStackLayer);
-	isometricLevel* getCurrentIsoLevel();
+	isometricLevel* getCurrentIsoLevel(); //returns an isometricalLevel pointer to the current level's data
 	void highlightTile(sf::Vector2f _tileCoords, sf::Color _colour);
 	sf::Vector2f isoToCart(sf::Vector2f _cart);
 	sf::Vector2f cartToIso(sf::Vector2f _iso);
 	int getLayerListSize();
-	int getCurrentLevel();
+	int getCurrentLevel();//returns an integer showing where the current level is in in the station stack
 	void setCurrentLevel(int _levelNumber);
 	void incCurrentLevel();
 	void decCurrentLevel();
 	void fadeAndSlideAwayUp();
 	void fadeAndSlideAwayDown();
 	void setBuildMode(bool _toggle);
+	void setDebugMode(bool _toggle);
 	void toggleBuildMode();
+	void toggleDebugMode();
 	bool getBuildMode();
+	bool getDebugMode();
 	void highlightAllTiles(sf::Color _colour);
 
 private:
 
 	bool buildMode = false;
+	bool debugMode = false;
+
 	int animationDurationms = 255;
 	int currentLevel = 0;
 	textureManager* textureMaster;

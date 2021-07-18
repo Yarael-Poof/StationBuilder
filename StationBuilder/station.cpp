@@ -110,7 +110,9 @@ int station::getLayerListSize()
 {
 	return int(isoLayerList.size());
 }
-
+///<summary>
+///returns an integer showing where the current level is in in the station stack
+///</summary>
 int station::getCurrentLevel()
 {
 	return currentLevel;
@@ -156,6 +158,27 @@ void station::setBuildMode(bool _toggle)
 
 }
 bool station::getBuildMode() { return buildMode; }
+void station::toggleBuildMode()
+{
+	buildMode = !buildMode;
+	if (buildMode == false)//if we exit build mode, clear all highlighting on all levels.
+	{
+		for (int i = 0; i < isoLayerList.size(); i++)
+
+			isoLayerList[i].clearTileColour();
+	}
+}
+void station::setDebugMode(bool _toggle)
+{
+	debugMode = _toggle;
+
+
+}
+bool station::getDebugMode() { return debugMode; }
+void station::toggleDebugMode()
+{
+	debugMode = !debugMode;
+}
 void station::fadeAndSlideAwayDown()
 {	//animations for switching levls, not finished, needs hooking in somehow to the main render loop.
 	sf::Clock timer;
@@ -176,21 +199,18 @@ void station::fadeAndSlideAwayUp()
 
 }
 
-void station::toggleBuildMode()
-{
-	buildMode = !buildMode;
-	if (buildMode == false)//if we exit build mode, clear all highlighting on all levels.
-	{	for(int i = 0;i < isoLayerList.size(); i ++)
-
-		isoLayerList[i].clearTileColour();
-	}
-}
+///<summary>
+///returns an isometricalLevel pointer to the current level's data
+///</summary>
 
 isometricLevel* station::getCurrentIsoLevel()
 {
 	return &isoLayerList[currentLevel];
 }
-
+isometricLevel* station::getIsoLevel(float _atWhichStackLayer)
+{
+	return &isoLayerList[_atWhichStackLayer];
+}
 void station::highlightTile(sf::Vector2f _tileCoords, sf::Color _colour)
 {	
 	

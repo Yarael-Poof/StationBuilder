@@ -19,10 +19,12 @@ public:
 	void addWall(sf::Vector2f _atWorldPosition, char _direction);
 	void addWall(float _worldX, float _worldY, char _direction);
 	void fillFloors();//fill entire level with floors
+	void addObjectToTile(sf::Vector2f _tileCoords, std::string _textureKey);
 	void clearAll();
 	bool addEdgeWall(char _direction);//only for square levels return 0 if called on nonsquare level
 	void draw(sf::RenderWindow&  _window);//add all the level's tiles to the window.
-	void printTileInfos();
+	void printTileInfos();//print dump all the objects on every tile of the level (verbose)
+	void printTileInfo(sf::Vector2f _tileCoords);//show the objets present on the specific tile
 	void drawTilePositionDebug(tgui::Gui& _gui);
 	void setTextureManager(textureManager* _textureMaster);
 	float getSizeW();
@@ -39,6 +41,8 @@ public:
 	void setTileColour(sf::Vector2f _tileCoords, sf::Color _colour);
 	void clearTileColour();
 	void setZOffset(float _zOffset);
+	int	 coords2TileIndex(sf::Vector2f _tileCoords);
+	int	 coords2TileIndex(int _tileX, int _tileY);
 
 protected:
 	

@@ -21,6 +21,15 @@ isometricLevel::~isometricLevel()
 {
 	levelTiles.clear();
 }
+
+int isometricLevel::coords2TileIndex(sf::Vector2f _tileCoords)
+{
+	return (int(_tileCoords.x) - 1) + (levelSizeW * (int(_tileCoords.y) - 1));
+}
+int isometricLevel::coords2TileIndex(int _tileX, int _tileY)
+{
+	return (_tileX - 1) + (levelSizeW * (_tileY - 1));
+}
 void isometricLevel::addFloor(sf::Vector2f _atWorldPosition)
 {
 	levelTiles.push_back(tile(_atWorldPosition,EMPTY));
@@ -66,6 +75,12 @@ void isometricLevel::fillFloors()
 	}
 }
 
+void isometricLevel::addObjectToTile(sf::Vector2f _tileCoords, std::string _textureKey)
+{
+	sf::Vector2f currentTileScreenPosition = levelTiles[coords2TileIndex(_tileCoords)].getRootObjectCoords();
+	levelTiles[coords2TileIndex(_tileCoords)].addTileObject(new tileObject(textureMaster, _textureKey, currentTileScreenPosition));
+}
+
 bool isometricLevel::addEdgeWall(char _direction) { return false; }//only for square levels return 0 if called on nonsquare level
 void isometricLevel::draw(sf::RenderWindow& _window)
 {
@@ -90,6 +105,12 @@ void isometricLevel::printTileInfos()
 		std::cout << "tile #:" << i;
 		levelTiles[i].printAllObjectsInTile();
 	}
+}
+void isometricLevel::printTileInfo(sf::Vector2f _tileCoords)
+{
+	
+	std::cout << "Tile #:" << coords2TileIndex(_tileCoords) << std::endl;
+		levelTiles[coords2TileIndex(_tileCoords)].printAllObjectsInTile();
 }
 
 void isometricLevel::drawTilePositionDebug(tgui::GuiSFML& _gui)
